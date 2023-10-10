@@ -6,7 +6,6 @@ services:
     command: /bin/bash init_node.sh
     volumes:
       - ./:/usr/src/app
-      - exclude:/usr/src/app/node_modules/
     ports:
       - "3000:3000"
     depends_on:
