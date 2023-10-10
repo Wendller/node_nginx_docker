@@ -19,7 +19,7 @@ cd node_nginx_docker
 Acione os containers:
 
 ```
-docker compose up -d
+docker compose up
 ```
 
 Aguarde todos os containers serem criados e executados, por fim acesse em seu navegador:

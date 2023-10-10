@@ -12,6 +12,8 @@ services:
       - db
     links:
       - db
+    networks:
+      - proxy_network
 
   db:
     image: mysql:5.7
@@ -22,9 +24,21 @@ services:
     environment:
       - MYSQL_DATABASE=nodedb
       - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - proxy_network
 
   nginx:
     build: ./nginx
     container_name: nginx
     ports:
       - "8080:80"
+    depends_on:
+      - node
+    links:
+      - node
+    networks:
+      - proxy_network
+
+networks:
+  proxy_network:
+    driver: bridge
