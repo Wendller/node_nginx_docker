@@ -1,0 +1,31 @@
+services:
+  node:
+    build: .
+    container_name: node
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    command: /bin/bash init_node.sh
+    volumes:
+      - ./:/usr/src/app
+      - exclude:/usr/src/app/node_modules/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: db
+    command: --innodb-use-native-aio=0
+    restart: always
+    tty: true
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "8080:80"
